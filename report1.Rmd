@@ -1,0 +1,44 @@
+```{r, echo=FALSE,message=FALSE}
+source("analysis.R")
+```
+
+# Input data
+
+```{r, echo=FALSE, results='asis'}
+library(xtable)
+print(xtable(head(mdat)), type = "html")
+```
+
+# Overview
+
+```{r, echo=FALSE}
+ggplot(mdat, aes(x = Detect, y = Value, fill = Type, colour = Type, label = Date)) +
+  geom_boxplot(position = dodge, alpha = 0.2, outlier.colour = NA) + 
+  geom_point(size = 2, position = position_jitterdodge(jitter.width = 0.6, dodge.width = 0.9)) +
+  cool_theme
+```
+
+Time-dependant changes.
+
+```{r, echo=FALSE, fig.width=10}
+ggplot(mdat, aes(x = Detect, y = Value, fill = Type, colour = Type, label = Date)) +
+  #geom_boxplot(position = dodge, alpha = 0.2, outlier.colour = NA) + 
+  geom_point(size = 2, position = position_jitterdodge(jitter.width = 0.6, dodge.width = 0.9)) +
+  cool_theme +
+  facet_wrap(~Date, nrow = 1)
+```
+
+# z-score
+
+$$z_i = \frac{x_i - \mu}{\sigma}$$
+
+Grouping: Date, Detect.
+
+```{r, echo=FALSE}
+ggplot(sumdat, aes(x = Detect, y = Mean, fill = Type)) +
+  geom_bar(stat = "identity", position = dodge) + 
+  geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, fill = Type), position=dodge, width=0.25) + 
+  cool_theme
+```
+
+
