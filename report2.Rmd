@@ -1,0 +1,40 @@
+```{r, echo=FALSE,message=FALSE}
+source("WT_baseline.R")
+library(xtable)
+```
+
+# WT values
+
+```{r, echo=FALSE, fig.width=10}
+set.seed(1)
+ggplot(only_WT, aes(x = Date, y = Value, colour = Detect)) +
+  geom_boxplot(aes(x = Date, y = Value), colour = "grey", position = dodge, outlier.colour = NA) + 
+  geom_point(size = 3, position = position_jitter(width = 0.3)) +
+  cool_theme +
+  ggtitle("WT fluorescence")
+```
+
+```{r, echo=FALSE, results='asis'}
+tmpBL <- BL
+colnames(tmpBL) <- c("Date", "Mean", "SD")
+print(xtable(tmpBL, "Baseline."), type = "html")
+```
+
+```{r, echo=FALSE, fig.width=10}
+set.seed(1)
+ggplot(only_WT, aes(x = Date, y = Value)) +
+  geom_point(size = 3, position = position_jitter(width = 0.3)) +
+  #stat_summary(aes(ymin = Value, ymax = Value), fun.y = "mean", colour = "red", geom = "crossbar") +
+  geom_pointrange(aes(x = Date, y = mBL, ymin = mBL - sdBL, ymax = mBL + sdBL), data = BL, colour = "red") +
+  cool_theme +
+  ggtitle("Baseline") 
+```
+
+```{r, echo=FALSE, fig.width=10}
+ggplot(BLdat, aes(x = Detect, y = Norm, colour = Type)) +
+  geom_point(size = 2, position = position_jitter(width = 0.3)) +
+  scale_y_continuous("Baselined value") +
+  cool_theme +
+  ggtitle("Baselined data") +
+  facet_wrap(~ Date)
+```

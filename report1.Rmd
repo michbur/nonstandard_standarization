@@ -1,5 +1,5 @@
 ```{r, echo=FALSE,message=FALSE}
-source("analysis.R")
+source("introductory_analysis.R")
 ```
 
 # Input data
@@ -10,13 +10,6 @@ print(xtable(head(mdat)), type = "html")
 ```
 
 # Overview
-
-```{r, echo=FALSE}
-ggplot(mdat, aes(x = Detect, y = Value, fill = Type, colour = Type, label = Date)) +
-  geom_boxplot(position = dodge, alpha = 0.2, outlier.colour = NA) + 
-  geom_point(size = 2, position = position_jitterdodge(jitter.width = 0.6, dodge.width = 0.9)) +
-  cool_theme
-```
 
 Time-dependant changes.
 
