@@ -57,3 +57,10 @@ ggplot(fin, aes(x = Detect, y = mNorm, colour = Type)) +
   cool_theme +
   scale_y_continuous("Standardized median value")
 ```
+
+```{r, echo=FALSE, fig.width=10, message=FALSE}
+ggplot(fin2, aes(x = Detect, y = mNorm, fill = Type)) +
+  geom_bar(stat = "identity", position = dodge) + 
+  geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, fill = Type), position=dodge, width=0.25) + 
+  cool_theme
+```

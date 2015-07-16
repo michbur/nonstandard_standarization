@@ -36,4 +36,12 @@ ggplot(fin, aes(x = Detect, y = mNorm, colour = Type)) +
   geom_point(position = dodge) + 
   geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, colour = Type), position=dodge, width=0.25) + 
   cool_theme
+
+fin2 <- BLdat %>% group_by(Detect, Type) %>% summarise(mNorm = median(Norm) + 20, sdNorm = mad(Norm)) %>% 
+  mutate(Up = mNorm + sdNorm, Low = mNorm - sdNorm)
+
+ggplot(fin2, aes(x = Detect, y = mNorm, fill = Type)) +
+  geom_bar(stat = "identity", position = dodge) + 
+  geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, fill = Type), position=dodge, width=0.25) + 
+  cool_theme
   
