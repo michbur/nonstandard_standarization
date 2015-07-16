@@ -38,3 +38,22 @@ ggplot(BLdat, aes(x = Detect, y = Norm, colour = Type)) +
   ggtitle("Baselined data") +
   facet_wrap(~ Date)
 ```
+
+```{r, echo=FALSE, fig.width=10}
+ggplot(BLdat, aes(x = Detect, y = Norm, colour = Type)) +
+  geom_point(size = 2, position = position_jitter(width = 0.3)) +
+  scale_y_continuous("Baselined value") +
+  cool_theme +
+  ggtitle("Baselined data") +
+  facet_wrap(~ Type)
+```
+
+# Standarized data
+
+```{r, echo=FALSE, fig.width=10, message=FALSE}
+ggplot(fin, aes(x = Detect, y = mNorm, colour = Type)) +
+  geom_point(position = dodge) + 
+  geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, colour = Type), position=dodge, width=0.25) + 
+  cool_theme +
+  scale_y_continuous("Standardized median value")
+```

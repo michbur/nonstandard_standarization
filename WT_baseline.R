@@ -25,9 +25,15 @@ only_WT <- mdat %>% filter(Type == "WT")
 
 dodge <- position_dodge(width=0.9)
 
-BL <- only_WT %>% group_by(Date) %>% summarise(mBL = mean(Value), sdBL = sd(Value))
+BL <- only_WT %>% group_by(Date) %>% summarise(mBL = median(Value), sdBL = mad(Value))
 
-BLdat <- mdat %>% group_by(Date) %>% mutate(Norm = (Value - mean(Value[Type == "WT"]))/sd(Value[Type == "WT"])) %>% ungroup
+BLdat <- mdat %>% group_by(Date) %>% mutate(Norm = (Value - median(Value[Type == "WT"]))/mad(Value[Type == "WT"])) %>% ungroup
 
+fin <- BLdat %>% group_by(Detect, Type) %>% summarise(mNorm = median(Norm), sdNorm = mad(Norm)) %>% 
+  mutate(Up = mNorm + sdNorm, Low = mNorm - sdNorm)
 
+ggplot(fin, aes(x = Detect, y = mNorm, colour = Type)) +
+  geom_point(position = dodge) + 
+  geom_errorbar(aes(ymax = Up, ymin = Low, x = Detect, colour = Type), position=dodge, width=0.25) + 
+  cool_theme
   
